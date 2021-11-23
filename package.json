@@ -1,0 +1,10 @@
+{
+  "name": "eventfrog-api-example",
+  "author": "Julian Pollak <poljpocket@gmail.com>",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "jquery": "^3",
+    "eventfrog-api": "^1"
+  }
+}
