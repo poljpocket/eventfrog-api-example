@@ -4,14 +4,15 @@ const _apiKey = 'YOUR_API_KEY';
     $('.events-wrapper').each(async function () {
         let $eventList = $(this).find('.event-list');
         try {
-            const Service = $.eventfrogService(_apiKey);
-            const events = await Service.loadEvents({
+            const Service = $.EventfrogService(_apiKey);
+            let request = $.EventfrogEventRequest({
                 locId: '51436', // KKThun
                 rubId: 233, // Theater
                 perPage: 12,
             });
-            await Service.mapTopics(events);
-            events.forEach(event => {
+            const result = await Service.loadEvents(request);
+            await Service.mapTopics(result.datasets);
+            result.datasets.forEach(event => {
                 let groupString = event.group ? `Gruppe: <a href="${event.group.link}" target="_blank">${event.group.title}</a> (${event.group.id})<br />` : '';
                 let locationString = event.location ? `Ort: ${event.location.title}, ${event.location.address}, ${event.location.zip} ${event.location.city} (${event.location.id})<br />` : '';
                 let organizerString = event.organizer ? `Organisator: ${event.organizer.name} (${event.organizer.id})<br />` : '';
@@ -28,7 +29,7 @@ const _apiKey = 'YOUR_API_KEY';
     $('.topics-wrapper').each(async function () {
         let $topicList = $(this).find('.topic-list');
         try {
-            const Service = $.eventfrogService(_apiKey);
+            const Service = $.EventfrogService(_apiKey);
             const topics = await Service.loadTopics();
             const topLevelTopics = topics.filter(t => !t.parent);
             for (const topic of topLevelTopics) {
